@@ -4,20 +4,11 @@ Pipeline pricing follows a transparent, usage-based model that reflects the true
 
 ## The Basics
 
-You pay only for the time your streams use a pipeline. Pricing is calculated per minute of video processed, with costs starting when a stream connects and ending when it disconnects.
+You pay only for the time your streams use a pipeline. Pricing is calculated per minute of video processed, with costs starting when a stream connects and ending when it disconnects. It is scaled by pixels, so if you use a high-res video you will incur greater costs.
 
 ```
-Total Cost = Minutes Streamed × Pipeline Rate
+Total Cost = Minutes Streamed × Pixel Multiplier x Pipeline Rate
 ```
-
-## How Pipeline Rates Work
-
-Pipeline rates are determined by two factors:
-
-1. **Base Compute Cost**: The actual infrastructure cost to run the pipeline
-2. **Gateway Fee**: A small fee for managing infrastructure and ensuring reliability
-
-Each pipeline displays its current rate before you start streaming. This rate is guaranteed not to exceed the displayed amount during your stream.
 
 ## Infrastructure Providers
 
@@ -27,6 +18,16 @@ You can also choose a specific provider if you prefer. This might be useful if y
 - Need guaranteed infrastructure in specific regions
 - Want to maintain consistent pricing
 - Have compliance requirements
+
+## How Pipeline Rates Work
+
+Pipeline rates are determined by two factors:
+
+1. **Base Compute Cost**: The actual infrastructure cost to run the pipeline, set by Orchestrators
+2. **Gateway Fee**: A small fee for managing infrastructure and ensuring reliability
+
+Each pipeline displays its current rate before you start streaming. This rate is guaranteed not to exceed the displayed amount during your stream.
+
 
 ## Managing Costs 
 
