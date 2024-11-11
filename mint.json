@@ -41,20 +41,18 @@
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "what-is-pipeline",
-        "remix-your-first-pipeline",
-        "create-your-first-pipeline",
-        "stream-into-pipeline"
+        "get-started/what-is-pipeline",
+        "get-started/remix-your-first-pipeline",
+        "get-started/create-your-first-pipeline"
       ]
     },
     {
       "group": "Start Streaming",
       "pages": [
-        "stream-into-pipeline-app",
-        "stream-into-pipeline-obs",
-        "stream-into-pipeline-studio",
-        "stream-into-pipeline-livekit"
+        "streaming/stream-into-pipeline-app",
+        "streaming/stream-into-pipeline-obs",
+        "streaming/stream-into-pipeline-studio",
+        "streaming/stream-into-pipeline-livekit"
       ]
     },
     {
