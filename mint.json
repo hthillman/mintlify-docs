@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Livepeer Pipelines",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -18,34 +18,23 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:hello@livepeer.org"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://pipelines.livepeer.org"
   },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
       "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "icon": "discord",
+      "url": "https://discord.gg/livepeer"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://livepeer.org/blog"
     }
   ],
   "navigation": [
@@ -53,39 +42,39 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "development"
+        "what-is-pipeline",
+        "remix-your-first-pipeline",
+        "create-your-first-pipeline",
+        "stream-into-pipeline"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Reference",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "reference/requirements-for-comfy-pipelines",
+        "reference/local-testing"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Pipeline API Reference",
       "pages": [
-        "api-reference/introduction"
+        "api-reference/pipeline/get",
+        "api-reference/pipeline/create",
+        "api-reference/pipeline/update",
+        "api-reference/pipeline/delete"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Stream API Reference",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "api-reference/pipeline/stream/create",
+        "api-reference/pipeline/stream/control"
       ]
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "x": "https://x.com/livepeer",
+    "github": "https://github.com/livepeer",
+    "linkedin": "https://linkedin.com/company/livepeer"
   }
 }
