@@ -49,6 +49,15 @@
       ]
     },
     {
+      "group": "Start Streaming",
+      "pages": [
+        "stream-into-pipeline-app",
+        "stream-into-pipeline-obs",
+        "stream-into-pipeline-studio",
+        "stream-into-pipeline-livekit"
+      ]
+    },
+    {
       "group": "Reference",
       "pages": [
         "reference/requirements-for-comfy-pipelines",
