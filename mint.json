@@ -58,6 +58,7 @@
     {
       "group": "Reference",
       "pages": [
+        "reference/pricing",
         "reference/requirements-for-comfy-pipelines",
         "reference/local-testing"
       ]
