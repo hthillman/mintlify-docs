@@ -1,110 +1,163 @@
 ---
-title: Testing ComfyUI Pipeline locally
-description: Reusable, custom snippets to keep content in sync
-icon: 'recycle'
+title: "Building Real-Time AI Video Pipelines with ComfyUI and ComfyStream"
+description: "Local development guide"
+icon: "recycle"
 ---
 
-import SnippetIntro from '/snippets/snippet-intro.mdx';
+This guide walks through setting up a real-time AI video pipeline using ComfyUI and ComfyStream. You'll learn how to process live video with AI models, using depth map generation as an example.
 
-<SnippetIntro />
+## Prerequisites
 
-## Creating a custom snippet
+- A RunPod account with access to GPU instances
+- Basic familiarity with terminal commands
+- SSH key pair for secure connections
+- Node.js and npm installed locally
 
-**Pre-condition**: You must create your snippet file in the `snippets` directory.
+## Technical Architecture
 
-<Note>
-  Any page in the `snippets` directory will be treated as a snippet and will not
-  be rendered into a standalone page. If you want to create a standalone page
-  from the snippet, import the snippet into another file and call it as a
-  component.
-</Note>
-
-### Default export
-
-1. Add content to your snippet file that you want to re-use across multiple
-   locations. Optionally, you can add variables that can be filled in via props
-   when you import the snippet.
-
-```mdx snippets/my-snippet.mdx
-Hello world! This is my content I want to reuse across pages. My keyword of the
-day is {word}.
+```
+Local Machine                     RunPod Instance
+┌─────────────┐    SSH Tunnel    ┌─────────────┐
+│ Browser UI  │◄──────────────►  │  ComfyUI    │
+│ (localhost) │                  │             │
+└─────────────┘                  │  ComfyStream│
+                                 └─────────────┘
 ```
 
-<Warning>
-  The content that you want to reuse must be inside the `snippets` directory in
-  order for the import to work.
-</Warning>
+## Step 1: Set Up ComfyUI Environment
 
-2. Import the snippet into your destination file.
-
-```mdx destination-file.mdx
----
-title: My title
-description: My Description
----
-
-import MySnippet from '/snippets/path/to/my-snippet.mdx';
-
-## Header
-
-Lorem impsum dolor sit amet.
-
-<MySnippet word="bananas" />
+1. Launch a RunPod instance with ComfyUI-Launcher
+```bash
+# On RunPod instance
+cd /workspace
+git clone https://github.com/ComfyWorkflows/ComfyUI-Launcher.git
+cd ComfyUI-Launcher
+./setup.sh
 ```
 
-### Reusable variables
-
-1. Export a variable from your snippet file:
-
-```mdx snippets/path/to/custom-variables.mdx
-export const myName = 'my name';
-
-export const myObject = { fruit: 'strawberries' };
+2. Configure workspace directories
+```bash
+# Directories will be created automatically
+/workspace/comfyui_launcher_models    # Shared models
+/workspace/comfyui_launcher_projects  # Workspace projects
 ```
 
-2. Import the snippet from your destination file and use the variable:
+> **Note:** Install at least one model through the ComfyUI manager GUI to enable the "Load Checkpoint" node.
 
-```mdx destination-file.mdx
----
-title: My title
-description: My Description
----
+## Step 2: Install ComfyStream
 
-import { myName, myObject } from '/snippets/path/to/custom-variables.mdx';
+1. Set up Conda environment
+```bash
+cd /workspace
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+eval "$(/root/miniconda3/bin/conda shell.bash hook)"
 
-Hello, my name is {myName} and I like {myObject.fruit}.
+# Create and activate environment
+conda create -n comfystream python=3.11
+conda activate comfystream
+
+# Install PyTorch
+conda install pytorch torchvision -c pytorch
 ```
 
-### Reusable components
+2. Install ComfyStream
+```bash
+cd /workspace
+git clone https://github.com/yondonfu/comfystream.git
+cd comfystream
+git fetch
+git checkout pin-opentelemetry
+pip install .
 
-1. Inside your snippet file, create a component that takes in props by exporting
-   your component in the form of an arrow function.
-
-```mdx snippets/custom-component.mdx
-export const MyComponent = ({ title }) => (
-  <div>
-    <h1>{title}</h1>
-    <p>... snippet content ...</p>
-  </div>
-);
+# Install tensor utilities
+cp -r nodes/tensor_utils /workspace/comfyui_launcher_projects/{workspace}/comfyui/custom_nodes
 ```
 
-<Warning>
-  MDX does not compile inside the body of an arrow function. Stick to HTML
-  syntax when you can or use a default export if you need to use MDX.
-</Warning>
+## Step 3: Install DepthAnything TensorRT Node
 
-2. Import the snippet into your destination file and pass in the props
-
-```mdx destination-file.mdx
----
-title: My title
-description: My Description
----
-
-import { MyComponent } from '/snippets/custom-component.mdx';
-
-Lorem ipsum dolor sit amet.
-
-<MyComponent title={'Custom title'} />
+1. Clone and install the node
+```bash
+cd /workspace/comfyui_launcher_projects/{workspace}/comfyui/custom_nodes
+git clone https://github.com/yuvraj108c/ComfyUI-Depth-Anything-Tensorrt.git
+cd ComfyUI-Depth-Anything-Tensorrt
+pip install -r requirements.txt
 ```
+
+2. Build TensorRT engine
+```bash
+wget https://huggingface.co/yuvraj108c/Depth-Anything-2-Onnx/resolve/main/depth_anything_v2_vitb.onnx?download=true
+mv depth_anything_v2_vitb.onnx?download=true depth_anything_v2_vitb.onnx
+
+# Update export_trt.py with:
+# onnx_path = "./depth_anything_v2_vitb.onnx"
+# trt_path = "depth_anything_v2_vitb-fp16.engine"
+
+python export_trt.py
+
+mkdir -p /workspace/comfyui_launcher_models/tensorrt/depth-anything/
+mv depth_anything_v2_vitb-fp16.engine /workspace/comfyui_launcher_models/tensorrt/depth-anything/
+```
+
+## Step 4: Configure Network Tunneling
+
+1. Set up UDP forwarding on the remote server
+```bash
+# On RunPod instance
+socat TCP4-LISTEN:4321,fork UDP4:127.0.0.1:5678
+```
+
+2. Create SSH tunnel from local machine
+```bash
+# On local machine
+ssh -L 4321:localhost:4321 {remote_user}@{remote_host}
+socat UDP4-LISTEN:1234,fork TCP4:127.0.0.1:4321
+```
+
+## Step 5: Launch ComfyStream Server
+
+1. Install dependencies and initialize workspace
+```bash
+cd /workspace/comfystream
+pip install -r requirements.txt
+python install.py --workspace /workspace/comfyui_launcher_projects/{workspace}/comfyui
+```
+
+2. Start the server
+```bash
+python server/app.py --workspace /workspace/comfyui_launcher_projects/{workspace}/comfyui --media-ports=5678
+```
+
+## Step 6: Run the Frontend
+
+1. Set up the local development environment
+```bash
+# On local machine
+git clone https://github.com/yondonfu/comfystream.git
+cd comfystream/ui
+npm install --legacy-peer-deps
+npm run dev
+```
+
+2. Access the interface
+- Open `localhost:3000` in your browser
+- Set stream URL to `http://127.0.0.1:8888`
+- Select the "depth anything" workflow
+
+## Testing Your Setup
+
+1. Open the ComfyUI interface and verify the DepthAnything node appears
+2. Test with a static image first to ensure model loading works
+3. Switch to live video input through the ComfyStream interface
+
+## Troubleshooting
+
+- If custom nodes don't appear, restart ComfyUI and refresh the browser
+- Check RunPod container logs for node installation issues
+- Verify SSH tunnels are active using `netstat` or similar tools
+
+## Next Steps
+
+- Experiment with different ComfyUI workflows
+- Explore other real-time AI models
+- Join the Livepeer Real-time AI Video Showcase waitlist for updates
