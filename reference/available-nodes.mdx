@@ -6,6 +6,24 @@ icon: 'code'
 
 This guide covers the available nodes and requirements for creating real-time video pipelines using ComfyUI with Livepeer.
 
+## Video Input/Output Nodes - REQUIRED FOR ALL PIPELINES
+
+### ComfyStream
+- [Github Link](https://github.com/yondonfu/comfystream/)
+- **Input:** 
+  - Video stream URL or device ID
+  - Optional configuration parameters
+- **Output:** 
+  - RGB frame tensor (3, H, W)
+  - Frame metadata (timestamp, index)
+- **Performance Requirements:**
+  - Frame processing time: < 5ms
+  - VRAM usage: < 500MB
+  - Buffer size: ≤ 2 frames
+  - Supported formats: RTMP, WebRTC, V4L2
+- **Best Practices:**
+  - Set fixed frame rate
+
 ## Analysis Nodes
 
 ### Depth Anything TensorRT
