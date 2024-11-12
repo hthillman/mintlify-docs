@@ -59,7 +59,7 @@
       "group": "Reference",
       "pages": [
         "reference/pricing",
-        "reference/requirements-for-comfy-pipelines",
+        "reference/available-nodes",
         "reference/local-testing"
       ]
     },
