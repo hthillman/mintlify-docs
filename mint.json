@@ -60,6 +60,7 @@
       "pages": [
         "reference/pricing",
         "reference/available-nodes",
+        "reference/performance-recommendations",
         "reference/local-testing"
       ]
     },
