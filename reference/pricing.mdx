@@ -1,7 +1,7 @@
 ---
 title: 'Understanding Pipeline Pricing'
 description: 'This guide covers performance recommendations for creating real-time video pipelines.'
-icon: 'dollar'
+icon: 'usd'
 ---
 
 Pipeline pricing follows a transparent, usage-based model that reflects the true costs of running real-time AI inference on video streams. This guide explains how pricing works and what to expect when using pipelines in your applications.
@@ -19,34 +19,42 @@ Total Cost = Minutes Streamed × Pixel Multiplier x Pipeline Rate
 Pipelines run on a network of infrastructure providers (called Orchestrators). Each provider can set their own rates for running specific pipelines. When you start a stream, we automatically select the most cost-effective provider that meets your pipeline's performance requirements.
 
 You can also choose a specific provider if you prefer. This might be useful if you:
-- Need guaranteed infrastructure in specific regions
-- Want to maintain consistent pricing
-- Have compliance requirements
+
+* Need guaranteed infrastructure in specific regions
+
+* Want to maintain consistent pricing
+
+* Have compliance requirements
 
 ## How Pipeline Rates Work
 
 Pipeline rates are determined by two factors:
 
 1. **Base Compute Cost**: The actual infrastructure cost to run the pipeline, set by Orchestrators
+
 2. **Gateway Fee**: A small fee for managing infrastructure and ensuring reliability
 
 Each pipeline displays its current rate before you start streaming. This rate is guaranteed not to exceed the displayed amount during your stream.
 
-
-## Managing Costs 
+## Managing Costs
 
 Right now, you will need to manage your own costs. In Q1, we will begin rolling out a suite of features to help you understand and control your spend.
 
 These will include:
 
 ### Usage Monitoring
-- View real-time cost accumulation in the dashboard
-- Set spending alerts and limits
-- Export detailed usage reports
+
+* View real-time cost accumulation in the dashboard
+
+* Set spending alerts and limits
+
+* Export detailed usage reports
 
 ### Cost Control
-- Test pipelines with our free tier (5 minutes per pipeline per day)
-- Set maximum spending limits per stream
+
+* Test pipelines with our free tier (5 minutes per pipeline per day)
+
+* Set maximum spending limits per stream
 
 ## Free Trial
 
@@ -67,7 +75,6 @@ Let's say you're using a style transfer pipeline that costs $0.10 per minute:
 A: Your streams will continue if you have automatic refills enabled. Otherwise, they'll be paused until you add more funds.
 
 **Q: Can pricing change during a stream?**
-A: Yes. However, if you choose the "Best match" provider selection option, it is guaranteed that your rate will not *increase*.  
+A: Yes. However, if you choose the "Best match" provider selection option, it is guaranteed that your rate will not *increase*.
 
 If you choose to run a pipeline with a specific Livepeer orchestrator, the rate you see when starting a stream is guaranteed for its duration unless the orchestrator fails. In that case, the stream will fall back to the "Best match" option as described above.
-
