@@ -37,54 +37,78 @@
       "url": "https://livepeer.org/blog"
     }
   ],
+  "tabs": [
+    {
+      "name": "Knowledge Base",
+      "url": "knowledge-base"
+    },
+    {
+      "name": "Technical Documentation",
+      "url": "technical"
+    }
+  ],
   "navigation": [
     {
-      "group": "Building",
+      "group": "Get Started",
       "pages": [
-        "get-started/what-is-pipeline",
-        "get-started/remix-your-first-pipeline",
-        "get-started/create-your-first-pipeline"
+        "knowledge-base/get-started/what-is-pipeline",
+        "knowledge-base/get-started/remix-your-first-pipeline",
+        "knowledge-base/get-started/create-your-first-pipeline"
+      ]
+    },
+    {
+      "group": "Pipeline Development",
+      "pages": [
+        "technical/develop-pipeline/what-is-pipeline",
+        "technical/develop-pipeline/remix-your-first-pipeline",
+        "technical/develop-pipeline/create-your-first-pipeline"
       ]
     },
     {
       "group": "Application Development",
       "pages": [
-        "develop/stream-into-pipeline-app",
-        "develop/stream-into-pipeline-studio",
-        "develop/stream-into-pipeline-livekit"
+        "technical/develop-app/stream-into-pipeline-app",
+        "technical/develop-app/stream-into-pipeline-studio",
+        "technical/develop-app/stream-into-pipeline-livekit"
       ]
     },
     {
       "group": "Reference",
       "pages": [
-        "reference/pricing",
-        "reference/available-nodes",
-        "reference/performance-recommendations",
-        "reference/local-testing"
+        "knowledge-base/reference/pricing"
+      ]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        "technical/reference/pricing",
+        "technical/reference/available-nodes",
+        "technical/reference/performance-recommendations",
+        "technical/reference/local-testing"
       ]
     },
     {
       "group": "Streamer Tutorials",
       "pages": [
-        "tutorials/stream-into-pipeline-obs",
-        "tutorials/pseudonymous-video-chat",
-        "tutorials/stream-to-twitch"
+        "knowledge-base/tutorials/stream-into-pipeline-obs",
+        "knowledge-base/tutorials/pseudonymous-video-chat",
+        "knowledge-base/tutorials/stream-to-twitch"
       ]
     },
     {
       "group": "Pipeline API Reference",
       "pages": [
-        "api-reference/pipeline/get",
-        "api-reference/pipeline/create",
-        "api-reference/pipeline/update",
-        "api-reference/pipeline/delete"
+        "technical/api-reference/pipeline/get",
+        "technical/api-reference/pipeline/create",
+        "technical/api-reference/pipeline/update",
+        "technical/api-reference/pipeline/delete"
       ]
     },
     {
       "group": "Stream API Reference",
       "pages": [
-        "api-reference/pipeline/stream/create",
-        "api-reference/pipeline/stream/control"
+        "technical/api-reference/pipeline/stream/create",
+        "technical/api-reference/pipeline/stream/control"
       ]
     }
   ],
