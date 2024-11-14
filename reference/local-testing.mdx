@@ -1,17 +1,20 @@
 ---
-title: "Building Real-Time AI Video Pipelines with ComfyUI and ComfyStream"
+title: "Local Development Environment for Real-Time AI Video Pipelines with ComfyUI and ComfyStream"
 description: "Local development guide"
 icon: "recycle"
 ---
 
-This guide walks through setting up a real-time AI video pipeline using ComfyUI and ComfyStream. You'll learn how to process live video with AI models, using depth map generation as an example.
+This guide walks through setting up a local real-time AI video pipeline using ComfyUI and ComfyStream. You'll learn how to process live video with AI models, using depth map generation as an example.
 
 ## Prerequisites
 
-- A RunPod account with access to GPU instances
-- Basic familiarity with terminal commands
-- SSH key pair for secure connections
-- Node.js and npm installed locally
+* A RunPod account with access to GPU instances
+
+* Basic familiarity with terminal commands
+
+* SSH key pair for secure connections
+
+* Node.js and npm installed locally
 
 ## Technical Architecture
 
@@ -27,6 +30,7 @@ Local Machine                     RunPod Instance
 ## Step 1: Set Up ComfyUI Environment
 
 1. Launch a RunPod instance with ComfyUI-Launcher
+
 ```bash
 # On RunPod instance
 cd /workspace
@@ -35,7 +39,8 @@ cd ComfyUI-Launcher
 ./setup.sh
 ```
 
-2. Configure workspace directories
+1. Configure workspace directories
+
 ```bash
 # Directories will be created automatically
 /workspace/comfyui_launcher_models    # Shared models
@@ -47,6 +52,7 @@ cd ComfyUI-Launcher
 ## Step 2: Install ComfyStream
 
 1. Set up Conda environment
+
 ```bash
 cd /workspace
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -61,7 +67,8 @@ conda activate comfystream
 conda install pytorch torchvision -c pytorch
 ```
 
-2. Install ComfyStream
+1. Install ComfyStream
+
 ```bash
 cd /workspace
 git clone https://github.com/yondonfu/comfystream.git
@@ -77,6 +84,7 @@ cp -r nodes/tensor_utils /workspace/comfyui_launcher_projects/{workspace}/comfyu
 ## Step 3: Install DepthAnything TensorRT Node
 
 1. Clone and install the node
+
 ```bash
 cd /workspace/comfyui_launcher_projects/{workspace}/comfyui/custom_nodes
 git clone https://github.com/yuvraj108c/ComfyUI-Depth-Anything-Tensorrt.git
@@ -84,7 +92,8 @@ cd ComfyUI-Depth-Anything-Tensorrt
 pip install -r requirements.txt
 ```
 
-2. Build TensorRT engine
+1. Build TensorRT engine
+
 ```bash
 wget https://huggingface.co/yuvraj108c/Depth-Anything-2-Onnx/resolve/main/depth_anything_v2_vitb.onnx?download=true
 mv depth_anything_v2_vitb.onnx?download=true depth_anything_v2_vitb.onnx
@@ -102,12 +111,14 @@ mv depth_anything_v2_vitb-fp16.engine /workspace/comfyui_launcher_models/tensorr
 ## Step 4: Configure Network Tunneling
 
 1. Set up UDP forwarding on the remote server
+
 ```bash
 # On RunPod instance
 socat TCP4-LISTEN:4321,fork UDP4:127.0.0.1:5678
 ```
 
-2. Create SSH tunnel from local machine
+1. Create SSH tunnel from local machine
+
 ```bash
 # On local machine
 ssh -L 4321:localhost:4321 {remote_user}@{remote_host}
@@ -117,13 +128,15 @@ socat UDP4-LISTEN:1234,fork TCP4:127.0.0.1:4321
 ## Step 5: Launch ComfyStream Server
 
 1. Install dependencies and initialize workspace
+
 ```bash
 cd /workspace/comfystream
 pip install -r requirements.txt
 python install.py --workspace /workspace/comfyui_launcher_projects/{workspace}/comfyui
 ```
 
-2. Start the server
+1. Start the server
+
 ```bash
 python server/app.py --workspace /workspace/comfyui_launcher_projects/{workspace}/comfyui --media-ports=5678
 ```
@@ -131,6 +144,7 @@ python server/app.py --workspace /workspace/comfyui_launcher_projects/{workspace
 ## Step 6: Run the Frontend
 
 1. Set up the local development environment
+
 ```bash
 # On local machine
 git clone https://github.com/yondonfu/comfystream.git
@@ -139,25 +153,34 @@ npm install --legacy-peer-deps
 npm run dev
 ```
 
-2. Access the interface
-- Open `localhost:3000` in your browser
-- Set stream URL to `http://127.0.0.1:8888`
-- Select the "depth anything" workflow
+1. Access the interface
+
+* Open `localhost:3000` in your browser
+
+* Set stream URL to [`http://127.0.0.1:8888`](http://127.0.0.1:8888)
+
+* Select the "depth anything" workflow
 
 ## Testing Your Setup
 
 1. Open the ComfyUI interface and verify the DepthAnything node appears
+
 2. Test with a static image first to ensure model loading works
+
 3. Switch to live video input through the ComfyStream interface
 
 ## Troubleshooting
 
-- If custom nodes don't appear, restart ComfyUI and refresh the browser
-- Check RunPod container logs for node installation issues
-- Verify SSH tunnels are active using `netstat` or similar tools
+* If custom nodes don't appear, restart ComfyUI and refresh the browser
+
+* Check RunPod container logs for node installation issues
+
+* Verify SSH tunnels are active using `netstat` or similar tools
 
 ## Next Steps
 
-- Experiment with different ComfyUI workflows
-- Explore other real-time AI models
-- Join the Livepeer Real-time AI Video Showcase waitlist for updates
+* Experiment with different ComfyUI workflows
+
+* Explore other real-time AI models
+
+* Join the Livepeer Real-time AI Video Showcase waitlist for updates
