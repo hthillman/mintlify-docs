@@ -18,7 +18,7 @@ Total Cost = Minutes Streamed × Pixel Multiplier x Pipeline Rate
 
 Pipelines run on a network of infrastructure providers (called Orchestrators). Each provider can set their own rates for running specific pipelines. When you start a stream, we automatically select the most cost-effective provider that meets your pipeline's performance requirements.
 
-You can also choose a specific provider if you prefer. This might be useful if you:
+In the future, you will be able choose a specific provider if you prefer. This might be useful if you:
 
 * Need guaranteed infrastructure in specific regions
 
@@ -40,6 +40,35 @@ Pipeline rates are determined by two factors:
 
 Each pipeline displays its current rate before you start streaming. This rate is guaranteed not to exceed the displayed amount during your stream.
 
+## Pricing Example
+
+Let's say you're using a style transfer pipeline that costs $0.10 per minute:
+
+```
+1 hour stream = 60 minutes × $0.10 x (1.0 multiplier for 720p stream) = $6.00
+1 hour stream = 60 minutes × $0.10 x (3.0 multiplier for 1080p stream) = $18.00
+```
+
+## Current Pricing 
+
+Right now, pipeline pricing is split into three tiers by overall resource usage:
+- High resource: complex pipelines that take 16-24 GB VRAM. Ex: SAM2 + Stream Diffusion.
+  - **Price:** $1.50 / hr
+- Medium resource: pipelines that take 8 - 16 GB VRAM. Ex: DepthAnything
+  - **Price:** $1.00 / hr
+- Low resource: pipelines that take less than 8 GB VRAM. Ex: LivePortrait, SAM2, etc
+  - **Price:** $0.50 / hr
+
+Over time, we will shift to fully marketplace-based pricing
+
+## Free Trial
+
+All new accounts start with $10 in credit to help you test pipelines in production. No credit card required.
+
+## [temporary] Free Credit Refills
+
+During initial rollout, Livepeer will subsidize all credit refills. To prevent abuse of this system, you may not carry a balance greater than $250.
+
 ## Managing Costs
 
 Right now, you will need to manage your own costs. In Q1, we will begin rolling out a suite of features to help you understand and control your spend.
@@ -60,25 +89,16 @@ These will include:
 
 * Set maximum spending limits per stream
 
-## Free Trial
 
-All new accounts start with $10 in credit to help you test pipelines in production. No credit card required.
 
-## Pricing Example
 
-Let's say you're using a style transfer pipeline that costs $0.10 per minute:
-
-```
-1 hour stream = 60 minutes × $0.10 = $6.00
-24 hour stream = 1,440 minutes × $0.10 = $144.00
-```
-
+<!-- 
 ## FAQ
 
 **Q: What happens if I run out of funds?**
-A: Your streams will continue if you have automatic refills enabled. Otherwise, they'll be paused until you add more funds.
+A: Your streams will continue if you have automatic refills enabled. Otherwise, they'll be paused until you add more funds. -->
 
-**Q: Can pricing change during a stream?**
+<!-- **Q: Can pricing change during a stream?**
 A: Yes. However, if you choose the "Best match" provider selection option, it is guaranteed that your rate will not *increase*.
 
-If you choose to run a pipeline with a specific Livepeer orchestrator, the rate you see when starting a stream is guaranteed for its duration unless the orchestrator fails. In that case, the stream will fall back to the "Best match" option as described above.
+If you choose to run a pipeline with a specific Livepeer orchestrator, the rate you see when starting a stream is guaranteed for its duration unless the orchestrator fails. In that case, the stream will fall back to the "Best match" option as described above. -->
