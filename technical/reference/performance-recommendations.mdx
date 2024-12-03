@@ -1,11 +1,17 @@
 ---
-title: 'Performance recommendations'
-description: 'This guide covers performance recommendations for creating real-time video pipelines.'
-icon: 'rocket'
+title: "Performance recommendations"
+description: "This guide covers performance recommendations for creating real-time video pipelines."
+icon: "rocket"
 ---
 
-## Recommendations
+A pipeline must pass pre-deployment tests before it can be published to Livepeer
 
-- Recommended sustained FPS: at least 15
-- Maximum frame latency: 100ms
-- Maximum VRAM usage: 8GB
+Before deployment, we conduct a 30s test using the Big Buck Bunny mp4. This test will fail if:
+
+* Any exception occurs&#x20;
+
+* Output Frames-per-second (FPS) degrades from input FPS by 80% or more (`(input FPS / output FPS) < 0.2`)
+
+  * 20% - 80% degradation is consider suboptimal and will incur a warning, but will pass pre-deployment tests
+
+  * \< 20% degradation is considered good, but developers should strive for \~0% degradation
