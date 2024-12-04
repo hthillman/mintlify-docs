@@ -52,8 +52,7 @@
       "group": "Get Started",
       "pages": [
         "knowledge-base/get-started/what-is-pipeline",
-        "knowledge-base/get-started/remix-your-first-pipeline",
-        "knowledge-base/get-started/create-your-first-pipeline"
+        "knowledge-base/get-started/try-a-pipeline"
       ]
     },
     {
